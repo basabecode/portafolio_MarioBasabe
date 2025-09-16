@@ -71,3 +71,18 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+## Desarrollo local (Nebula background)
+
+Instrucciones rápidas para ejecutar el proyecto con el nuevo fondo generativo "Nebulosa de skills":
+
+```powershell
+npm install
+npm run dev
+```
+
+Notas de rendimiento:
+- El fondo usa Canvas 2D y ajusta la densidad según dispositivo.
+- Respeta `prefers-reduced-motion` para accesibilidad.
+- Para pruebas en CPU bajas, ejecutar con `NODE_ENV=production` y servir los archivos desde `dist`.
+

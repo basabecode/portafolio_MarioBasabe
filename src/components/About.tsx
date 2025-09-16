@@ -15,41 +15,32 @@ const About = () => {
     <section id="about" className="py-20 scroll-mt-24">
       <h2 className="flex items-center gap-2 text-2xl font-bold mb-10 text-slate-900">
         <User size={20} />
-        About Me
+  Sobre mí
       </h2>
       <div className="grid md:grid-cols-3 gap-10">
         <div className="md:col-span-2 space-y-4">
           <p className="text-slate-700 leading-relaxed">
-            Hello! I'm Mario, a front-end developer with a passion for creating
-            engaging user experiences. My journey in web development began back
-            in 2018 when I decided to create a custom website for a small
-            business — turns out hacking together a landing page taught me a lot
-            about HTML & CSS!
+            ¡Hola! Soy Mario, desarrollador front-end apasionado por crear experiencias de usuario atractivas. Mi camino en el desarrollo web comenzó en 2018 cuando decidí crear un sitio web personalizado para un pequeño negocio. ¡Resulta que armar una landing page me enseñó mucho sobre HTML y CSS!
           </p>
           <p className="text-slate-700 leading-relaxed">
-            Fast-forward to today, and I've had the privilege of working at a
-            start-up, a mid-size agency, and a large corporation. My main focus
-            these days is building accessible, inclusive products and digital
-            experiences for a variety of clients.
+            Hoy en día he tenido el privilegio de trabajar en una startup, una agencia mediana y una gran corporación. Mi enfoque principal es construir productos y experiencias digitales accesibles e inclusivas para una variedad de clientes.
           </p>
           <p className="text-slate-700 leading-relaxed">
-            I also recently launched a course that covers everything you need to
-            build a web app with the React ecosystem.
+            Recientemente lancé un curso que cubre todo lo necesario para construir una aplicación web con el ecosistema de React.
           </p>
           <p className="text-slate-700 leading-relaxed">
-            When I'm not at the computer, I'm usually rock climbing, playing
-            basketball, or exploring new coffee shops in the city.
+            Cuando no estoy frente al computador, normalmente estoy escalando, jugando baloncesto o explorando nuevas cafeterías en la ciudad.
           </p>
         </div>
         <div className="border-2 border-slate-700 rounded-lg p-6 h-fit">
           <h3 className="flex items-center gap-2 font-semibold mb-4 text-slate-900">
             <Code size={18} />
-            Skills & Technologies
+            Habilidades y Tecnologías
           </h3>
           <ul className="grid grid-cols-2 gap-2">
             {skills.map((skill, index) => (
-              <li 
-                key={index} 
+              <li
+                key={index}
                 className="text-slate-700 flex items-center gap-2"
               >
                 <span className="text-slate-800">▹</span> {skill}
