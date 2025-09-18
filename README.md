@@ -86,3 +86,13 @@ Notas de rendimiento:
 - Respeta `prefers-reduced-motion` para accesibilidad.
 - Para pruebas en CPU bajas, ejecutar con `NODE_ENV=production` y servir los archivos desde `dist`.
 
+### Usar pnpm (recomendado)
+
+Este proyecto ahora soporta `pnpm`. Recomendado para instalaciones más rápidas y caché eficaz.
+
+```powershell
+pnpm install
+pnpm dev
+pnpm build
+```
+
