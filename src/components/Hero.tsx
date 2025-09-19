@@ -38,9 +38,9 @@ const Hero = () => {
         <div className="w-full md:w-1/3 flex justify-center md:justify-end">
           <div className="rounded-lg overflow-hidden border-4 border-slate-800 bg-slate-100 shadow-lg w-64 h-64 md:w-72 md:h-72">
             <Avatar className="w-full h-full rounded-none">
-              <AvatarImage 
-                src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80" 
-                alt="Mario Basabe" 
+              <AvatarImage
+                src="/img_gris_gafas.webp"
+                alt="Mario Basabe"
                 className="object-cover"
               />
               <AvatarFallback className="text-4xl">MB</AvatarFallback>
