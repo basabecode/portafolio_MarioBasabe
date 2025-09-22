@@ -1,0 +1,168 @@
+/* Mejoras específicas de responsividad */
+
+/* Mobile First - Extra Small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .hero-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    min-height: 100vh;
+  }
+
+  .hero-text {
+    text-align: center;
+  }
+
+  .hero-name {
+    font-size: 2.5rem !important;
+    line-height: 1.1;
+  }
+
+  .hero-name-subtitle {
+    font-size: 2rem !important;
+  }
+
+  .hero-image {
+    width: 16rem;
+    height: 16rem;
+    margin-top: 2rem;
+  }
+
+  .hero-skills {
+    justify-content: center;
+    margin-left: 0 !important;
+  }
+
+  .hero-cta {
+    justify-content: center;
+    margin-left: 0 !important;
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .hero-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .hero-name {
+    font-size: 3rem !important;
+  }
+
+  .hero-name-subtitle {
+    font-size: 2.5rem !important;
+  }
+
+  .hero-image {
+    width: 20rem;
+    height: 20rem;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .hero-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .hero-grid {
+    gap: 2rem;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .hero-text {
+    text-align: left;
+  }
+
+  .hero-skills {
+    justify-content: flex-start;
+  }
+
+  .hero-cta {
+    justify-content: flex-start;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .hero-name {
+    font-size: 6rem !important;
+  }
+
+  .hero-name-subtitle {
+    font-size: 5rem !important;
+  }
+}
+
+/* Ultra wide screens (1400px and up) */
+@media (min-width: 1400px) {
+  .hero-name {
+    font-size: 7rem !important;
+  }
+
+  .hero-name-subtitle {
+    font-size: 6rem !important;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero-container {
+    min-height: 100vh;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .hero-grid {
+    min-height: auto;
+    gap: 1rem;
+  }
+
+  .hero-image {
+    width: 12rem;
+    height: 12rem;
+  }
+
+  .hero-name {
+    font-size: 2rem !important;
+  }
+
+  .hero-name-subtitle {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .hero-image {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Animation performance optimizations for mobile */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .animate-pulse {
+    animation: none;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .hero-cta button:hover {
+    transform: scale(1.05);
+  }
+
+  .hero-image:hover {
+    transform: scale(1.02);
+  }
+}
