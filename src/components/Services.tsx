@@ -1,4 +1,4 @@
-﻿import { Wand2, Layout, Gauge, Workflow } from 'lucide-react'
+﻿import { Wand2, Layout, Gauge, Workflow, Brain } from 'lucide-react'
 
 interface ServicesProps {
   isVisible: boolean
@@ -6,32 +6,48 @@ interface ServicesProps {
 
 const SERVICES = [
   {
-    icon: Wand2,
-    title: 'Estrategia digital y discovery',
+    icon: Brain,
+    title: 'Estrategia de IA y automatización',
     description:
-      'Workshops de co-creación, investigación con usuarios y definición de objetivos tácticos para asegurar foco y ROI desde el día uno.',
-    highlights: ['Design sprints facilitados', 'Mapas de experiencia', 'KPIs accionables'],
+      'Implementación de inteligencia artificial para optimizar procesos, automatizar tareas clave y descubrir oportunidades de crecimiento desde el día uno.',
+    highlights: [
+      'Modelos predictivos aplicados',
+      'Automatización de flujos de trabajo',
+      'Decisiones basadas en datos',
+    ],
   },
   {
     icon: Layout,
     title: 'Experiencias UI con código limpio',
     description:
       'Componentes accesibles, sistemas de diseño modulares y microinteracciones que refuerzan la narrativa de marca.',
-    highlights: ['Design system escalable', 'Animaciones de alto rendimiento', 'WCAG 2.1 AA compliance'],
+    highlights: [
+      'Design system escalable',
+      'Animaciones de alto rendimiento',
+      'WCAG 2.1 AA compliance',
+    ],
   },
   {
     icon: Gauge,
     title: 'Arquitecturas full stack escalables',
     description:
       'Backends robustos con Node.js y servicios serverless conectados a frontends performantes construidos con React y Next.js.',
-    highlights: ['Observabilidad end-to-end', 'Automatización CI/CD', 'QA dirigido por métricas'],
+    highlights: [
+      'Observabilidad end-to-end',
+      'Automatización CI/CD',
+      'QA dirigido por métricas',
+    ],
   },
   {
     icon: Workflow,
     title: 'Optimización continua y analytics',
     description:
       'Experimentación, A/B testing y dashboards accionables para iterar rápido y convertir insights en mejoras medibles.',
-    highlights: ['Implementación de analytics', 'Tests A/B en producción', 'Reportes ejecutivos'],
+    highlights: [
+      'Implementación de analytics',
+      'Tests A/B en producción',
+      'Reportes ejecutivos',
+    ],
   },
 ]
 
@@ -59,13 +75,17 @@ const Services = ({ isVisible }: ServicesProps) => {
             Un enfoque integral para lanzar productos con impacto
           </h2>
           <p className="max-w-3xl text-balance text-[1.125rem] leading-[1.6] text-white/70">
-            Cada proyecto inicia con discovery estratégico y evoluciona hacia un desarrollo iterativo respaldado por datos. Construimos experiencias memorables optimizadas para conversión, velocidad y escalabilidad.
+            Cada proyecto inicia con discovery estratégico y evoluciona hacia un
+            desarrollo iterativo respaldado por datos. Construimos experiencias
+            memorables optimizadas para conversión, velocidad y escalabilidad.
           </p>
         </header>
 
         <div
           className={`grid gap-6 transition-all duration-700 sm:grid-cols-2 xl:grid-cols-4 ${
-            isVisible ? 'translate-y-0 opacity-100 delay-150' : 'translate-y-3 opacity-95'
+            isVisible
+              ? 'translate-y-0 opacity-100 delay-150'
+              : 'translate-y-3 opacity-95'
           }`}
         >
           {SERVICES.map(service => {
@@ -79,12 +99,17 @@ const Services = ({ isVisible }: ServicesProps) => {
                   <Icon className="h-6 w-6" aria-hidden="true" />
                 </div>
                 <div className="space-y-4 text-left">
-                  <h3 className="text-xl font-semibold text-white">{service.title}</h3>
+                  <h3 className="text-xl font-semibold text-white">
+                    {service.title}
+                  </h3>
                   <p className="text-sm text-white/70">{service.description}</p>
                   <ul className="space-y-2 text-sm text-white/70">
                     {service.highlights.map(item => (
                       <li key={item} className="flex items-start gap-2">
-                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-gradient-to-r from-primary to-secondary" aria-hidden="true" />
+                        <span
+                          className="mt-1 h-1.5 w-1.5 rounded-full bg-gradient-to-r from-primary to-secondary"
+                          aria-hidden="true"
+                        />
                         <span>{item}</span>
                       </li>
                     ))}

@@ -1,4 +1,11 @@
-﻿import { MonitorSmartphone, Server, Cloud, Palette, Boxes, Database } from 'lucide-react'
+﻿import {
+  MonitorSmartphone,
+  Server,
+  Cloud,
+  Palette,
+  Boxes,
+  Database,
+} from 'lucide-react'
 
 interface TechShowcaseProps {
   isVisible: boolean
@@ -8,19 +15,33 @@ const TECH_GROUPS = [
   {
     title: 'Frontend experience',
     icon: MonitorSmartphone,
-    technologies: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Framer Motion', 'Three.js'],
+    technologies: [
+      'React',
+      'HTML',
+      'TypeScript',
+      'Tailwind',
+      'CSS',
+      'JavaScript',
+    ],
     color: 'from-primary/80 to-secondary/60',
   },
   {
     title: 'Backend & data',
     icon: Server,
-    technologies: ['Node.js', 'Express', 'NestJS', 'PostgreSQL', 'MongoDB', 'Prisma'],
+    technologies: [
+      'Node.js',
+      'Express',
+      'Next.js',
+      'PostgreSQL',
+      'MongoDB',
+      'Supabase',
+    ],
     color: 'from-secondary/80 to-accent/60',
   },
   {
-    title: 'DevOps y observabilidad',
+    title: 'IA DevOps & cloud',
     icon: Cloud,
-    technologies: ['AWS', 'Vercel', 'Docker', 'CI/CD', 'Grafana', 'Sentry'],
+    technologies: ['AWS', 'Vercel', 'Docker', 'LLMs', 'Netlify', 'GitHub'],
     color: 'from-accent/80 to-primary/60',
   },
 ]
@@ -55,13 +76,17 @@ const TechShowcase = ({ isVisible }: TechShowcaseProps) => {
             Tecnología cuidada para entregar velocidad, calidad y métricas
           </h2>
           <p className="max-w-3xl text-balance text-[1.125rem] leading-[1.6] text-white/70">
-            Selecciono cada herramienta con base en objetivos de negocio, velocidad de iteración y mantenibilidad. Accesibilidad, performance y analítica se integran desde el primer commit.
+            Selecciono cada herramienta con base en objetivos de negocio,
+            velocidad de iteración y mantenibilidad. Accesibilidad, performance
+            y analítica se integran desde el primer commit.
           </p>
         </header>
 
         <div
           className={`grid gap-6 transition-all duration-700 lg:grid-cols-3 ${
-            isVisible ? 'translate-y-0 opacity-100 delay-150' : 'translate-y-3 opacity-95'
+            isVisible
+              ? 'translate-y-0 opacity-100 delay-150'
+              : 'translate-y-3 opacity-95'
           }`}
         >
           {TECH_GROUPS.map(group => {
@@ -79,7 +104,9 @@ const TechShowcase = ({ isVisible }: TechShowcaseProps) => {
                   <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/10">
                     <Icon className="h-6 w-6 text-white" aria-hidden="true" />
                   </span>
-                  <h3 className="text-lg font-semibold text-white">{group.title}</h3>
+                  <h3 className="text-lg font-semibold text-white">
+                    {group.title}
+                  </h3>
                 </div>
                 <div className="relative flex flex-wrap gap-2">
                   {group.technologies.map(tech => (
@@ -92,7 +119,8 @@ const TechShowcase = ({ isVisible }: TechShowcaseProps) => {
                   ))}
                 </div>
                 <p className="relative text-sm text-white/70">
-                  Integrado con pipelines de QA, componentes accesibles y medición continua de performance.
+                  Integrado con pipelines de QA, componentes accesibles y
+                  medición continua de performance.
                 </p>
               </article>
             )
@@ -101,7 +129,9 @@ const TechShowcase = ({ isVisible }: TechShowcaseProps) => {
 
         <div
           className={`grid gap-4 overflow-hidden rounded-3xl border border-white/10 bg-[rgba(8,12,22,0.82)] p-6 transition-all duration-700 sm:grid-cols-3 ${
-            isVisible ? 'translate-y-0 opacity-100 delay-200' : 'translate-y-3 opacity-95'
+            isVisible
+              ? 'translate-y-0 opacity-100 delay-200'
+              : 'translate-y-3 opacity-95'
           }`}
         >
           {DESIGN_TOOLS.map(tool => {
@@ -111,12 +141,15 @@ const TechShowcase = ({ isVisible }: TechShowcaseProps) => {
                 <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/10">
                   <Icon className="h-5 w-5 text-secondary" aria-hidden="true" />
                 </span>
-                <p className="text-sm font-semibold text-white/70">{tool.label}</p>
+                <p className="text-sm font-semibold text-white/70">
+                  {tool.label}
+                </p>
               </div>
             )
           })}
           <p className="col-span-full text-sm text-white/65">
-            Diseño de sistemas, librerías UI internas y componentes auditados para accesibilidad y rendimiento.
+            Diseño de sistemas, librerías UI internas y componentes auditados
+            para accesibilidad y rendimiento.
           </p>
         </div>
       </div>

@@ -4,7 +4,8 @@ interface HeroSectionProps {
   isVisible: boolean
 }
 
-const HERO_PRIMARY_H1 = 'Transformo ideas en experiencias digitales que convierten'
+const HERO_PRIMARY_H1 =
+  'Transformo ideas en experiencias digitales que convierten'
 
 const HeroSection = ({ isVisible }: HeroSectionProps) => {
   const handleNavigate = (id: string) => {
@@ -36,8 +37,11 @@ const HeroSection = ({ isVisible }: HeroSectionProps) => {
             <div className="flex flex-col gap-6">
               <div className="flex flex-wrap items-center justify-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] text-white/60 lg:justify-start">
                 <span className="inline-flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-gradient-to-r from-primary to-secondary" aria-hidden="true" />
-                  Stack actual · React · Next.js · Node
+                  <span
+                    className="h-2.5 w-2.5 rounded-full bg-gradient-to-r from-primary to-secondary"
+                    aria-hidden="true"
+                  />
+                  Stack actual · React · Next.js · Automatización
                 </span>
               </div>
 
@@ -46,7 +50,11 @@ const HeroSection = ({ isVisible }: HeroSectionProps) => {
               </h1>
 
               <p className="mx-auto max-w-[62ch] text-[1.125rem] leading-[1.6] text-white/70 lg:mx-0">
-                Soy Mario, desarrollador full stack con foco en productos medibles. Diseño y construyo experiencias digitales de principio a fin, apoyadas en investigación, sistemas de diseño y ciclos de iteración continua para impulsar crecimiento real.
+                Soy Mario, desarrollador full stack con foco en productos
+                digitales. Diseño y construyo experiencias de principio a fin,
+                impulsadas por automatización, inteligencia artificial e
+                investigación, con sistemas de diseño y ciclos de iteración
+                continua que generan crecimiento real.
               </p>
             </div>
 
@@ -70,9 +78,16 @@ const HeroSection = ({ isVisible }: HeroSectionProps) => {
 
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
               <div className="flex items-center justify-center gap-2 text-sm text-white/60 lg:justify-start">
-                {['Productos digitales', 'Sistemas de diseño', 'Medición continua'].map(item => (
+                {[
+                  'Productos digitales',
+                  'Sistemas de diseño',
+                  'Inteligencia artificial',
+                ].map(item => (
                   <span key={item} className="inline-flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-primary to-secondary" aria-hidden="true" />
+                    <span
+                      className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-primary to-secondary"
+                      aria-hidden="true"
+                    />
                     {item}
                   </span>
                 ))}
@@ -85,7 +100,9 @@ const HeroSection = ({ isVisible }: HeroSectionProps) => {
                   <p className="text-xs uppercase tracking-[0.3em] text-white/50">
                     Conversión promedio
                   </p>
-                  <p className="text-base font-semibold text-white">+34% en lanzamientos</p>
+                  <p className="text-base font-semibold text-white">
+                    en lanzamientos
+                  </p>
                 </div>
               </div>
             </div>
@@ -93,7 +110,10 @@ const HeroSection = ({ isVisible }: HeroSectionProps) => {
 
           <div className="lg:col-span-5">
             <div className="relative mx-auto w-full max-w-[480px]">
-              <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-primary/15 via-transparent to-secondary/20 blur-3xl" aria-hidden="true" />
+              <div
+                className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-primary/15 via-transparent to-secondary/20 blur-3xl"
+                aria-hidden="true"
+              />
               <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] border border-white/12 bg-[rgba(8,12,24,0.85)] shadow-[0_30px_80px_-45px_rgba(12,15,30,0.85)]">
                 <img
                   src="/img_gris_gafas.webp"
@@ -102,7 +122,10 @@ const HeroSection = ({ isVisible }: HeroSectionProps) => {
                   loading="lazy"
                 />
               </div>
-              <div className="absolute inset-0 rounded-[2.5rem] ring-2 ring-white/10" aria-hidden="true" />
+              <div
+                className="absolute inset-0 rounded-[2.5rem] ring-2 ring-white/10"
+                aria-hidden="true"
+              />
             </div>
           </div>
         </div>
