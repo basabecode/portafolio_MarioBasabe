@@ -26,10 +26,6 @@
     padding-bottom: calc(var(--grid-base) * 5);
   }
 
-  .hero-floating-card {
-    display: none;
-  }
-
   .grid-overlay::before {
     opacity: 0.15;
   }

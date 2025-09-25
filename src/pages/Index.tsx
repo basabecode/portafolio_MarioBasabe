@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react'
+﻿import { useMemo, useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
 import HeroSection from '@/components/HeroSection'
 import Services from '@/components/Services'
@@ -13,7 +13,6 @@ import Footer from '@/components/Footer'
 const NAVIGATION_IDS = [
   'home',
   'servicios',
-  'stack',
   'proyectos',
   'testimonios',
   'sobre',
@@ -129,6 +128,7 @@ const Index = () => {
 
   return (
     <div className="relative min-h-screen overflow-x-hidden">
+      <a href="#main-content" className="skip-link">Saltar al contenido principal</a>
       <div className="fixed inset-0 -z-20 opacity-80" aria-hidden="true">
         <div
           className="absolute inset-0"
@@ -154,7 +154,7 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="relative z-10 flex flex-col gap-0">
+      <main id="main-content" className="relative z-10 flex flex-col gap-0">
         <HeroSection isVisible={visibleSet.has('home')} />
         <Services isVisible={visibleSet.has('servicios')} />
         <TechShowcase isVisible={visibleSet.has('stack')} />
@@ -171,3 +171,6 @@ const Index = () => {
 }
 
 export default Index
+
+
+
