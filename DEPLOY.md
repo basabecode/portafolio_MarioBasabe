@@ -15,10 +15,12 @@ Este proyecto está listo para ser desplegado en Vercel o Netlify.
 3. El directorio de salida es `dist/`.
 
 ## Configuración recomendada
+
 - **Vercel**: Detecta automáticamente proyectos Vite y usa el comando de build `pnpm run build`.
 - **Netlify**: Configura el build command como `pnpm run build` y el publish directory como `dist`.
 
 ## Notas
+
 - Si usas Netlify, puedes agregar un archivo `_redirects` en `public/` para manejar rutas SPA:
   ```
   /*    /index.html   200
@@ -26,6 +28,7 @@ Este proyecto está listo para ser desplegado en Vercel o Netlify.
 - Si usas Vercel, no necesitas configuración adicional para rutas SPA.
 
 ## Solución de errores
+
 Si aparece el error `ERR_PNPM_OUTDATED_LOCKFILE`, asegúrate de usar `pnpm install --no-frozen-lockfile`.
 
 ---
