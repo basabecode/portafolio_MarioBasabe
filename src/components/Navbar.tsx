@@ -1,202 +1,221 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-scroll'
-import { Menu, X, Home, User, Briefcase, FolderOpen, Mail } from 'lucide-react'
+﻿import { useEffect, useState } from 'react'
+import type { LucideIcon } from 'lucide-react'
+import {
+  Home,
+  Sparkles,
+  Cpu,
+  FolderGit2,
+  MessagesSquare,
+  UserRound,
+  Send,
+  Menu,
+  X,
+  ArrowUpRight,
+} from 'lucide-react'
+
+const NAVIGATION_CONTENT: Record<
+  string,
+  {
+    label: string
+    icon: LucideIcon
+  }
+> = {
+  home: { label: 'Inicio', icon: Home },
+  servicios: { label: 'Servicios', icon: Sparkles },
+  stack: { label: 'Tecnologías', icon: Cpu },
+  proyectos: { label: 'Proyectos', icon: FolderGit2 },
+  testimonios: { label: 'Testimonios', icon: MessagesSquare },
+  sobre: { label: 'Sobre mí', icon: UserRound },
+  contacto: { label: 'Contacto', icon: Send },
+}
 
 interface NavbarProps {
   activeSection: string
+  navItems: string[]
+  onNavigate: (id: string) => void
 }
 
-const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
+const Navbar = ({ activeSection, navItems, onNavigate }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 10
-      setScrolled(isScrolled)
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 32)
 
+    handleScroll()
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const navItems = [
-    { name: 'Inicio', href: 'home', icon: Home },
-    { name: 'Sobre', href: 'sobre', icon: User },
-    { name: 'Experiencia', href: 'experiencia', icon: Briefcase },
-    { name: 'Proyectos', href: 'proyectos', icon: FolderOpen },
-    { name: 'Contacto', href: 'contacto', icon: Mail },
-  ]
+  useEffect(() => {
+    if (!isMenuOpen) return
+
+    const closeMenu = () => setIsMenuOpen(false)
+    window.addEventListener('resize', closeMenu)
+    window.addEventListener('scroll', closeMenu)
+    return () => {
+      window.removeEventListener('resize', closeMenu)
+      window.removeEventListener('scroll', closeMenu)
+    }
+  }, [isMenuOpen])
+
+  const renderNavButton = (id: string) => {
+    const config = NAVIGATION_CONTENT[id]
+    if (!config) return null
+
+    const Icon = config.icon
+    const isActive = activeSection === id
+    const isSobre = id === 'sobre'
+
+    return (
+      <button
+        key={id}
+        type="button"
+        onClick={() => onNavigate(id)}
+        className={`group relative flex items-center gap-2 rounded-full py-2 text-sm font-medium transition-all duration-300 ${
+          isSobre ? 'px-8' : 'px-6'
+        } ${isActive ? 'text-white' : 'text-white/70 hover:text-white'}`}
+        aria-current={isActive ? 'page' : undefined}
+      >
+        <span
+          className={`absolute inset-0 rounded-full transition-all duration-300 ${
+            isActive
+              ? 'bg-white/20 opacity-100 backdrop-blur-xl shadow-lg shadow-primary/20'
+              : 'bg-white/10 opacity-0 group-hover:opacity-100'
+          }`}
+        />
+        <span className="relative flex items-center gap-2 whitespace-nowrap">
+          <Icon className={`h-4 w-4 ${isActive ? 'text-primary' : 'text-white/50'}`} />
+          {config.label}
+        </span>
+        <span
+          className={`pointer-events-none absolute -bottom-2 left-1/2 h-1 w-10 -translate-x-1/2 rounded-full bg-gradient-to-r from-primary via-secondary to-accent shadow-lg shadow-primary/30 transition-all duration-300 ${
+            isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+          }`}
+        />
+      </button>
+    )
+  }
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-[999] transition-all duration-300 ${
+      className={`relative flex w-full justify-center transition-colors duration-300 ${
         scrolled
-          ? 'bg-black/60 backdrop-blur-md border-b border-white/10'
+          ? 'bg-[rgba(8,12,20,0.95)] backdrop-blur-xl border-b border-white/10 shadow-[0_30px_80px_-40px_rgba(15,20,40,0.95)]'
           : 'bg-transparent'
       }`}
-      style={{
-        background: scrolled
-          ? 'linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(15,23,42,0.9) 100%)'
-          : 'transparent',
-      }}
+      aria-label="Navegación principal"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link
-              to="home"
-              smooth={true}
-              duration={500}
-              className="flex items-center cursor-pointer group"
-            >
-              <div className="relative">
-                {/* Glassmorphism container for logo */}
-                <div
-                  className={`relative w-10 h-10 rounded-xl backdrop-blur-sm border transition-all duration-300 ${
-                    scrolled
-                      ? 'bg-white/10 border-white/20 shadow-lg shadow-black/20'
-                      : 'bg-white/5 border-white/10'
-                  } group-hover:bg-white/20 group-hover:border-white/30 group-hover:scale-105`}
-                >
-                  <img
-                    src="/MB_plata.png"
-                    alt="Mario Basabe"
-                    className="w-full h-full object-contain rounded-xl p-1 filter brightness-110"
-                  />
-                  {/* Glow effect */}
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-emerald-400/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-
-                {/* Optional text logo */}
-                <div className="hidden sm:block absolute left-12 top-1/2 -translate-y-1/2">
-                  <span
-                    className={`text-lg font-bold transition-all duration-300 ${
-                      scrolled ? 'text-white drop-shadow-lg' : 'text-white/90'
-                    } group-hover:text-emerald-300`}
-                  >
-                    PORTAFOLIO WEB
-                  </span>
-                </div>
-              </div>
-            </Link>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-1">
-              {navItems.map(item => {
-                const Icon = item.icon
-                const isActive = activeSection === item.href
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    smooth={true}
-                    duration={500}
-                    className={`group relative px-4 py-2 rounded-xl transition-all duration-300 cursor-pointer ${
-                      isActive
-                        ? `${
-                            scrolled
-                              ? 'bg-white/20 text-emerald-300 shadow-lg shadow-emerald-500/20 border border-emerald-400/30'
-                              : 'bg-white/15 text-emerald-300 shadow-lg shadow-emerald-500/10 border border-emerald-400/20'
-                          }`
-                        : `${
-                            scrolled
-                              ? 'text-gray-200 hover:bg-white/10 hover:text-white border border-transparent hover:border-white/20'
-                              : 'text-gray-300 hover:bg-white/5 hover:text-white border border-transparent hover:border-white/10'
-                          }`
-                    }`}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <Icon className="w-4 h-4" />
-                      <span className="text-sm font-medium">{item.name}</span>
-                    </div>
-
-                    {/* Active indicator */}
-                    {isActive && (
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full" />
-                    )}
-
-                    {/* Hover glow effect */}
-                    <div
-                      className={`absolute inset-0 rounded-xl transition-opacity duration-300 opacity-0 group-hover:opacity-100 ${
-                        isActive
-                          ? 'bg-gradient-to-r from-emerald-500/10 to-blue-500/10'
-                          : 'bg-gradient-to-r from-white/5 to-white/10'
-                      }`}
-                    />
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`p-2 rounded-xl transition-all duration-300 ${
-                scrolled
-                  ? 'bg-white/10 border border-white/20 text-white hover:bg-white/20'
-                  : 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
-              }`}
-            >
-              {isMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
-            </button>
+      <div className="page-shell flex items-center justify-between gap-6 py-4">
+        <div className="flex items-center gap-3 lg:flex-1">
+          <button
+            type="button"
+            onClick={() => onNavigate('home')}
+            className="relative flex h-12 w-24 items-center justify-center overflow-hidden rounded-full border border-white/40 bg-black shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary"
+            aria-label="Logo Mario Basabe"
+          >
+            <img
+              src="/MB_plata.png"
+              alt="Mario Basabe"
+              className="h-full w-full object-contain p-1"
+              draggable={false}
+            />
+          </button>
+          <div className="flex flex-col">
+            <span className="text-xs font-medium uppercase tracking-[0.32em] text-white/60">
+              Mario Basabe
+            </span>
+            <span className="flex items-center gap-2 text-sm text-white">
+              Full Stack Developer
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-widest text-emerald-300">
+                Disponible
+              </span>
+            </span>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden">
-            <div
-              className={`px-2 pt-4 pb-6 space-y-2 backdrop-blur-md rounded-b-2xl border-b border-x ${
-                scrolled
-                  ? 'bg-black/80 border-white/20'
-                  : 'bg-black/60 border-white/10'
-              }`}
-            >
-              {navItems.map(item => {
-                const Icon = item.icon
-                const isActive = activeSection === item.href
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    smooth={true}
-                    duration={500}
-                    className={`group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 cursor-pointer ${
-                      isActive
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/30'
-                        : 'text-gray-300 hover:bg-white/10 hover:text-white border border-transparent hover:border-white/20'
-                    }`}
-                  >
-                    <div
-                      className="flex items-center w-full"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      <Icon className="w-5 h-5" />
-                      <span className="font-medium">{item.name}</span>
-                      {/* Mobile active indicator */}
-                      {isActive && (
-                        <div className="ml-auto w-2 h-2 bg-emerald-400 rounded-full" />
-                      )}
-                    </div>
-                  </Link>
-                )
-              })}
+        <div className="hidden lg:flex flex-1 items-center justify-center gap-6">
+          {navItems.map(renderNavButton)}
+        </div>
+
+        <div className="hidden lg:flex flex-1 justify-end">
+          <a
+            href="https://wa.me/573003094854"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/20"
+          >
+            Hablemos
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-rotate-12 group-hover:translate-x-1" />
+          </a>
+        </div>
+
+        <div className="flex items-center lg:hidden">
+          <button
+            type="button"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-all duration-300 hover:border-white/30 hover:bg-white/15"
+            onClick={() => setIsMenuOpen(prev => !prev)}
+            aria-label={isMenuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
+          >
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+      </div>
+
+      {isMenuOpen && (
+        <div className="absolute inset-x-0 top-full mt-3 px-4 pb-4 lg:hidden">
+          <div className="page-shell px-0">
+            <div className="rounded-3xl border border-white/10 bg-[rgba(10,15,26,0.95)] p-4 shadow-2xl">
+              <div className="flex flex-col gap-2">
+                {navItems
+                  .map(id => ({ id, config: NAVIGATION_CONTENT[id] }))
+                  .filter(section => Boolean(section.config))
+                  .map(({ id, config }) => {
+                    if (!config) return null
+                    const Icon = config.icon
+                    const isActive = activeSection === id
+
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => {
+                          onNavigate(id)
+                          setIsMenuOpen(false)
+                        }}
+                        className={`flex items-center justify-between rounded-2xl px-4 py-3 text-left transition-all duration-300 ${
+                          isActive
+                            ? 'bg-white/10 text-white shadow-lg shadow-primary/20'
+                            : 'bg-transparent text-white/70 hover:bg-white/5 hover:text-white'
+                        }`}
+                      >
+                        <span className="flex items-center gap-3">
+                          <span className="flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                            <Icon className="h-4 w-4" />
+                          </span>
+                          <span className="font-semibold whitespace-nowrap">{config.label}</span>
+                        </span>
+                        <ArrowUpRight className="h-4 w-4" />
+                      </button>
+                    )
+                  })}
+                <a
+                  href="https://wa.me/573003094854"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-primary to-secondary px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/40"
+                >
+                  Hablemos
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   )
 }
 
 export default Navbar
+

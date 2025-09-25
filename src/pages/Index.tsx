@@ -1,229 +1,171 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
-import Hero3D from '../components/Hero3D'
+import HeroSection from '@/components/HeroSection'
+import Services from '@/components/Services'
+import TechShowcase from '@/components/TechShowcase'
+import Projects from '@/components/Projects'
+import Testimonials from '@/components/Testimonials'
 import About from '@/components/About'
 import Experience from '@/components/Experience'
-import Projects from '@/components/Projects'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
 
+const NAVIGATION_IDS = [
+  'home',
+  'servicios',
+  'stack',
+  'proyectos',
+  'testimonios',
+  'sobre',
+  'contacto',
+]
+
+type SectionVisibility = Record<string, boolean>
+
+type SectionConfig = {
+  id: string
+  navTarget?: string
+}
+
+const SECTIONS_TO_OBSERVE: SectionConfig[] = [
+  { id: 'home' },
+  { id: 'servicios' },
+  { id: 'stack' },
+  { id: 'proyectos' },
+  { id: 'testimonios' },
+  { id: 'sobre' },
+  { id: 'experiencia', navTarget: 'sobre' },
+  { id: 'contacto' },
+]
+
 const Index = () => {
-  const [activeSection, setActiveSection] = useState('home')
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set())
+  const [activeSection, setActiveSection] = useState<string>('home')
+  const [visibleSections, setVisibleSections] = useState<SectionVisibility>({
+    home: true,
+  })
+  const [scrollProgress, setScrollProgress] = useState<number>(0)
 
-  const handleScroll = useCallback(() => {
-    const sections = document.querySelectorAll('section')
-    const scrollPosition = window.scrollY + 200
+  const visibleSet = useMemo(
+    () => new Set(Object.keys(visibleSections)),
+    [visibleSections]
+  )
 
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop
-      const sectionHeight = section.offsetHeight
-      const sectionId = section.getAttribute('id')
+  useEffect(() => {
+    const handleScrollProgress = () => {
+      const scrollTop = window.scrollY
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0
+      setScrollProgress(progress)
+    }
 
-      if (
-        scrollPosition >= sectionTop &&
-        scrollPosition < sectionTop + sectionHeight &&
-        sectionId
-      ) {
-        setActiveSection(sectionId)
-      }
-
-      // Check if section is in viewport for animations
-      if (
-        sectionId &&
-        scrollPosition >= sectionTop - window.innerHeight * 0.3
-      ) {
-        setVisibleSections(prev => new Set([...prev, sectionId]))
-      }
-    })
+    handleScrollProgress()
+    window.addEventListener('scroll', handleScrollProgress)
+    return () => {
+      window.removeEventListener('scroll', handleScrollProgress)
+    }
   }, [])
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-    // Trigger initial check
-    handleScroll()
+    const observer = new IntersectionObserver(
+      entries => {
+        let bestMatch: { target: string; distance: number } | null = null
+        const viewportCenter = window.innerHeight / 2
+
+        entries.forEach(entry => {
+          const element = entry.target as HTMLElement
+          const sectionId = element.getAttribute('id')
+          if (!sectionId) return
+
+          if (entry.isIntersecting) {
+            setVisibleSections(prev => {
+              if (prev[sectionId]) return prev
+              return { ...prev, [sectionId]: true }
+            })
+
+            const navTarget =
+              element.getAttribute('data-nav-target') || sectionId
+            if (NAVIGATION_IDS.includes(navTarget)) {
+              const rect = entry.boundingClientRect
+              const elementCenter = rect.top + rect.height / 2
+              const distance = Math.abs(elementCenter - viewportCenter)
+
+              if (!bestMatch || distance < bestMatch.distance) {
+                bestMatch = { target: navTarget, distance }
+              }
+            }
+          }
+        })
+
+        if (bestMatch) {
+          setActiveSection(bestMatch.target)
+        }
+      },
+      {
+        threshold: [0, 0.25, 0.5, 0.75],
+        rootMargin: '-35% 0px -35% 0px',
+      }
+    )
+
+    const sectionNodes = SECTIONS_TO_OBSERVE.map(({ id }) =>
+      document.getElementById(id)
+    ).filter((node): node is HTMLElement => Boolean(node))
+
+    sectionNodes.forEach(section => observer.observe(section))
+
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      sectionNodes.forEach(section => observer.unobserve(section))
+      observer.disconnect()
     }
-  }, [handleScroll])
+  }, [])
+
+  const handleNavigate = (id: string) => {
+    setActiveSection(id)
+    const element = document.getElementById(id)
+    if (!element) return
+
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden z-0">
-      {/* Global Background - Fixed and Full Coverage */}
-      <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-black" />
-      <div
-        className="fixed inset-0 opacity-20"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.1) 1px, transparent 0)',
-          backgroundSize: '40px 40px',
-        }}
-      />
-
-      {/* Hero section - Full screen without containers */}
-      <section id="home" className="relative z-10">
-        <div className="absolute top-0 left-0 right-0 z-50">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Navbar activeSection={activeSection} />
-          </div>
-        </div>
-        <Hero3D />
-      </section>
-
-      {/* Rest of the content with container and dramatic animations */}
-      <div className="relative z-10">
-        <main>
-          <section
-            id="sobre"
-            className={`pt-24 transition-all duration-1500 ease-out transform ${
-              visibleSections.has('sobre')
-                ? 'translate-x-0 opacity-100 scale-100 rotate-0'
-                : '-translate-x-full opacity-0 scale-75 -rotate-12'
-            }`}
-          >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-              {/* Efecto de onda de fondo */}
-              <div
-                className={`absolute inset-0 wave-overlay ${
-                  visibleSections.has('sobre') ? '' : 'opacity-0'
-                }`}
-              />
-              <div
-                className={`transform transition-all duration-1000 delay-300 ${
-                  visibleSections.has('sobre')
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-20 opacity-0'
-                }`}
-              >
-                <About />
-              </div>
-            </div>
-          </section>
-
-          <section
-            id="experiencia"
-            className={`pt-24 transition-all duration-1500 ease-out transform delay-200 ${
-              visibleSections.has('experiencia')
-                ? 'translate-x-0 opacity-100 scale-100 rotate-0'
-                : 'translate-x-full opacity-0 scale-75 rotate-12'
-            }`}
-          >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-              {/* Efecto de partículas flotantes */}
-              <div
-                className={`absolute -top-10 -left-10 w-4 h-4 bg-blue-400 rounded-full animate-float ${
-                  visibleSections.has('experiencia')
-                    ? 'opacity-60'
-                    : 'opacity-0'
-                }`}
-              />
-              <div
-                className={`absolute -top-5 -right-5 w-3 h-3 bg-emerald-400 rounded-full animate-float-reverse delay-1000 ${
-                  visibleSections.has('experiencia')
-                    ? 'opacity-40'
-                    : 'opacity-0'
-                }`}
-              />
-              <div
-                className={`absolute -bottom-5 left-1/2 w-2 h-2 bg-purple-400 rounded-full animate-float delay-500 ${
-                  visibleSections.has('experiencia')
-                    ? 'opacity-50'
-                    : 'opacity-0'
-                }`}
-              />
-
-              <div
-                className={`transform transition-all duration-1000 delay-500 ${
-                  visibleSections.has('experiencia')
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-20 opacity-0'
-                }`}
-              >
-                <Experience />
-              </div>
-            </div>
-          </section>
-
-          <section
-            id="proyectos"
-            className={`pt-24 transition-all duration-1500 ease-out transform delay-300 ${
-              visibleSections.has('proyectos')
-                ? 'translate-x-0 opacity-100 scale-100 rotate-0'
-                : '-translate-x-full opacity-0 scale-75 -rotate-12'
-            }`}
-          >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-              {/* Efecto de resplandor */}
-              <div
-                className={`absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-pink-500/10 transition-opacity duration-1000 ${
-                  visibleSections.has('proyectos') ? 'opacity-100' : 'opacity-0'
-                }`}
-              />
-
-              <div
-                className={`transform transition-all duration-1000 delay-700 ${
-                  visibleSections.has('proyectos')
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-20 opacity-0'
-                }`}
-              >
-                <Projects />
-              </div>
-            </div>
-          </section>
-
-          <section
-            id="contacto"
-            className={`pt-24 transition-all duration-1500 ease-out transform delay-500 ${
-              visibleSections.has('contacto')
-                ? 'translate-x-0 opacity-100 scale-100 rotate-0'
-                : 'translate-x-full opacity-0 scale-75 rotate-12'
-            }`}
-          >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-              {/* Efectos de luz ambiental */}
-              <div
-                className={`absolute -top-20 -left-20 w-40 h-40 bg-cyan-400/20 rounded-full blur-3xl transition-opacity duration-1000 ${
-                  visibleSections.has('contacto') ? 'opacity-100' : 'opacity-0'
-                }`}
-              />
-              <div
-                className={`absolute -bottom-20 -right-20 w-40 h-40 bg-blue-400/20 rounded-full blur-3xl transition-opacity duration-1000 delay-300 ${
-                  visibleSections.has('contacto') ? 'opacity-100' : 'opacity-0'
-                }`}
-              />
-
-              <div
-                className={`transform transition-all duration-1000 delay-900 ${
-                  visibleSections.has('contacto')
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-20 opacity-0'
-                }`}
-              >
-                <Contact />
-              </div>
-            </div>
-          </section>
-        </main>
-
+    <div className="relative min-h-screen overflow-x-hidden">
+      <div className="fixed inset-0 -z-20 opacity-80" aria-hidden="true">
         <div
-          className={`transition-all duration-1500 ease-out transform delay-700 ${
-            visibleSections.has('contacto')
-              ? 'translate-y-0 opacity-100 scale-100'
-              : 'translate-y-full opacity-0 scale-90'
-          }`}
-        >
-          <div className="relative">
-            {/* Efecto final de brillo */}
+          className="absolute inset-0"
+          style={{ background: 'var(--gradient-hero)' }}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06)_0%,transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(124,92,255,0.08)_0%,transparent_60%)]" />
+      </div>
+
+      <header className="nav-sticky fixed inset-x-0 top-0 z-50 flex flex-col items-center gap-3 py-4 backdrop-blur-lg">
+        <Navbar
+          activeSection={activeSection}
+          onNavigate={handleNavigate}
+          navItems={NAVIGATION_IDS}
+        />
+        <div className="page-shell">
+          <div className="h-0.5 w-full bg-white/5">
             <div
-              className={`absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent transition-opacity duration-1000 delay-1000 ${
-                visibleSections.has('contacto') ? 'opacity-100' : 'opacity-0'
-              }`}
+              className="h-full bg-gradient-to-r from-primary via-secondary to-accent transition-all duration-300"
+              style={{ width: `${scrollProgress}%` }}
             />
-            <Footer />
           </div>
         </div>
-      </div>
+      </header>
+
+      <main className="relative z-10 flex flex-col gap-0">
+        <HeroSection isVisible={visibleSet.has('home')} />
+        <Services isVisible={visibleSet.has('servicios')} />
+        <TechShowcase isVisible={visibleSet.has('stack')} />
+        <Projects isVisible={visibleSet.has('proyectos')} />
+        <Testimonials isVisible={visibleSet.has('testimonios')} />
+        <About isVisible={visibleSet.has('sobre')} />
+        <Experience isVisible={visibleSet.has('experiencia')} />
+        <Contact isVisible={visibleSet.has('contacto')} />
+      </main>
+
+      <Footer />
     </div>
   )
 }

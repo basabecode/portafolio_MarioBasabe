@@ -1,148 +1,98 @@
-import { useState } from 'react'
-import {
-  FileText,
-  Briefcase,
-  Calendar,
-  ChevronRight,
-  Sparkles,
-} from 'lucide-react'
+import { Compass, PenTool, Code2, BarChart3, ArrowRight } from 'lucide-react'
 
-const Experience = () => {
-  const [activeTab, setActiveTab] = useState(0)
+interface ExperienceProps {
+  isVisible: boolean
+}
 
-  const jobs = [
-    {
-      company: 'Netcraft',
-      title: 'Senior Front End Engineer',
-      period: 'January 2023 - Present',
-      duties: [
-        'Developed and maintained code for in-house and client websites primarily using React, JavaScript, TypeScript, and Tailwind CSS',
-        'Manually tested sites in various browsers and mobile devices to ensure cross-browser compatibility and responsiveness',
-        'Interfaced with user experience designers and other developers to ensure thoughtful and coherent user experiences',
-        'Worked with a team of developers to build a new company website using Next.js and GraphQL',
-      ],
-    },
-    {
-      company: 'Webflow Studio',
-      title: 'Front End Developer',
-      period: 'May 2021 - December 2022',
-      duties: [
-        'Worked with a team of designers to create responsive websites and ensure an excellent user experience',
-        'Implemented advanced animations and interactive elements using JavaScript and GSAP',
-        'Collaborated with clients to understand their requirements and deliver high-quality results',
-        'Optimized sites for maximum speed and scalability',
-      ],
-    },
-    {
-      company: 'Freelance',
-      title: 'Web Developer',
-      period: 'August 2018 - April 2021',
-      duties: [
-        'Designed and developed responsive websites for small businesses and individuals',
-        'Built custom themes and plugins for WordPress sites',
-        'Provided maintenance and support services for existing client websites',
-        'Implemented SEO best practices to improve client visibility in search engines',
-      ],
-    },
-  ]
+const phases = [
+  {
+    icon: Compass,
+    title: '01 · Descubrir',
+    description:
+      'Workshops con stakeholders, entrevistas clave y definición de hipótesis. Artefactos: mapa de objetivos, journey maps, backlog priorizado.',
+    deliverables: ['Research sessions', 'Canvas estratégico', 'Roadmap inicial'],
+  },
+  {
+    icon: PenTool,
+    title: '02 · Diseñar',
+    description:
+      'Prototipos de alta fidelidad, design system y microinteracciones validadas. Conexión directa con la arquitectura técnica.',
+    deliverables: ['Design tokens', 'Component library', 'Prototipos navegables'],
+  },
+  {
+    icon: Code2,
+    title: '03 · Construir',
+    description:
+      'Desarrollo iterativo con QA continuo, performance budgeting y automatización CI/CD. Codificación limpia y testeable.',
+    deliverables: ['Codebase escalable', 'Testing & QA', 'Documentación viva'],
+  },
+  {
+    icon: BarChart3,
+    title: '04 · Optimizar',
+    description:
+      'Dashboards en producción, experimentos A/B y roadmap basado en insights. Coaching a equipos internos.',
+    deliverables: ['Dashboards', 'Plan de experimentos', 'Enablement sessions'],
+  },
+]
 
+const Experience = ({ isVisible }: ExperienceProps) => {
   return (
-    <section id="experience" className="py-20 scroll-mt-24 relative z-10">
-      <div className="relative z-10">
-        <div className="flex items-center justify-center mb-16">
-          <div className="group flex items-center gap-3 text-white">
-            <div className="relative">
-              <Briefcase
-                size={28}
-                className="text-blue-400 group-hover:rotate-12 transition-transform duration-300"
-              />
-              <div className="absolute -inset-2 bg-blue-400/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
-              Donde he trabajado
-            </h2>
-            <Sparkles size={20} className="text-blue-300 animate-pulse" />
-          </div>
+    <section
+      id="experiencia"
+      data-observe-section
+      data-nav-target="sobre"
+      className="section-shell"
+      aria-labelledby="experiencia-title"
+    >
+      <div className="page-shell">
+        <div
+          className={`flex flex-col items-center gap-6 pb-12 text-center transition-all duration-700 ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-95'
+          }`}
+        >
+          <span className="pill-badge">Proceso</span>
+          <h2
+            id="experiencia-title"
+            className="text-balance text-3xl font-semibold text-white sm:text-4xl md:text-5xl"
+          >
+            Un framework colaborativo para entregar valor continuo
+          </h2>
+          <p className="max-w-3xl text-balance text-sm text-white/70 sm:text-base">
+            Integro equipos de producto, diseño y tecnología a través de un proceso claro que va del descubrimiento al crecimiento. Cada fase incluye entregables tangibles y medición constante.
+          </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Tab Buttons */}
-          <div className="lg:w-64 flex lg:flex-col overflow-x-auto lg:overflow-visible mb-6 lg:mb-0 gap-2">
-            {jobs.map((job, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveTab(index)}
-                className={`group relative px-6 py-4 text-left rounded-xl transition-all duration-300 whitespace-nowrap lg:whitespace-normal ${
-                  activeTab === index
-                    ? 'bg-white/10 backdrop-blur-sm border border-emerald-400/50 text-white transform scale-105'
-                    : 'bg-white/5 backdrop-blur-sm border border-white/10 text-gray-300 hover:bg-white/10 hover:text-white hover:border-emerald-400/30'
-                }`}
+        <div
+          className={`grid gap-6 transition-all duration-700 lg:grid-cols-2 xl:grid-cols-4 ${
+            isVisible ? 'translate-y-0 opacity-100 delay-100' : 'translate-y-3 opacity-95'
+          }`}
+        >
+          {phases.map(phase => {
+            const Icon = phase.icon
+            return (
+              <article
+                key={phase.title}
+                className="group relative flex h-full flex-col gap-5 overflow-hidden rounded-[2rem] border border-white/10 bg-[rgba(12,16,28,0.85)] p-6 backdrop-blur-xl transition-transform duration-500 hover:-translate-y-2"
               >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      activeTab === index
-                        ? 'bg-emerald-400 shadow-lg shadow-emerald-400/50'
-                        : 'bg-gray-500'
-                    }`}
-                  />
-                  <span className="font-medium">{job.company}</span>
-                  {activeTab === index && (
-                    <ChevronRight
-                      size={16}
-                      className="text-emerald-400 animate-pulse lg:hidden"
-                    />
-                  )}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-secondary/15 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-primary">
+                  <Icon className="h-6 w-6" />
                 </div>
-                {activeTab === index && (
-                  <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-xl blur opacity-50 -z-10" />
-                )}
-              </button>
-            ))}
-          </div>
-
-          {/* Tab Content */}
-          <div className="flex-1">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 group">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="relative">
-                  <FileText
-                    size={24}
-                    className="text-emerald-400 group-hover:rotate-12 transition-transform duration-300"
-                  />
-                  <div className="absolute -inset-2 bg-emerald-400/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative space-y-3">
+                  <h3 className="text-lg font-semibold text-white">{phase.title}</h3>
+                  <p className="text-sm text-white/65">{phase.description}</p>
                 </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white mb-2">
-                    {jobs[activeTab].title}
-                  </h3>
-                  <p className="text-emerald-400 font-medium text-lg">
-                    @ {jobs[activeTab].company}
-                  </p>
-                  <div className="flex items-center gap-2 mt-2">
-                    <Calendar size={16} className="text-gray-400" />
-                    <p className="text-gray-400 font-mono text-sm">
-                      {jobs[activeTab].period}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <ul className="space-y-4">
-                {jobs[activeTab].duties.map((duty, index) => (
-                  <li
-                    key={index}
-                    className="flex gap-4 text-gray-300 hover:text-white transition-colors duration-200 group/item"
-                  >
-                    <span className="text-emerald-400 flex-shrink-0 mt-1 group-hover/item:scale-125 transition-transform duration-200">
-                      ▸
-                    </span>
-                    <span className="leading-relaxed">{duty}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+                <ul className="relative space-y-2 text-sm text-white/70">
+                  {phase.deliverables.map(item => (
+                    <li key={item} className="flex items-center gap-2">
+                      <ArrowRight className="h-3.5 w-3.5 text-secondary" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>
