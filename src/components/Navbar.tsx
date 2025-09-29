@@ -22,6 +22,15 @@ const CONTACT_CTA = {
 }
 
 const Navbar = ({ activeSection, navItems, onNavigate }: NavbarProps) => {
+  // Animación de giro horizontal tipo bola 3D
+  // Ver clase y keyframes en src/animations.css
+  const [logoAnimated, setLogoAnimated] = useState(true)
+
+  useEffect(() => {
+    if (!logoAnimated) return
+    const timer = setTimeout(() => setLogoAnimated(false), 1800)
+    return () => clearTimeout(timer)
+  }, [logoAnimated])
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -90,13 +99,21 @@ const Navbar = ({ activeSection, navItems, onNavigate }: NavbarProps) => {
             className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-black/80 shadow-lg transition-transform duration-200 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label="Ir al inicio"
           >
-            <img
-              src="/MB_plata.png"
-              alt="Mario Basabe"
-              className="h-full w-full object-contain p-2"
-              draggable={false}
-            />
+            {/* Animación 3D: ver src/animations.css */}
+            <span className="relative h-full w-full">
+              <img
+                src="/MB_plata.png"
+                alt="Mario Basabe"
+                className={`h-full w-full rounded-full object-cover logo-3d ${
+                  logoAnimated ? 'animate-spin-horizontal' : ''
+                }`}
+                style={{ imageRendering: 'auto' }}
+                draggable={false}
+                onAnimationEnd={() => setLogoAnimated(false)}
+              />
+            </span>
           </button>
+          {/* Animación 3D: ver clase y keyframes en src/animations.css */}
           <div className="flex flex-col">
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-white/60">
               Mario Basabe
@@ -144,10 +161,18 @@ const Navbar = ({ activeSection, navItems, onNavigate }: NavbarProps) => {
             type="button"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white transition-all duration-200 hover:border-white/40 hover:bg-white/10"
             onClick={() => setIsMenuOpen(prev => !prev)}
-            aria-label={isMenuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
+            aria-label={
+              isMenuOpen
+                ? 'Cerrar menú de navegación'
+                : 'Abrir menú de navegación'
+            }
             aria-expanded={isMenuOpen}
           >
-            {isMenuOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+            {isMenuOpen ? (
+              <X className="h-5 w-5" aria-hidden="true" />
+            ) : (
+              <Menu className="h-5 w-5" aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
@@ -207,5 +232,3 @@ const Navbar = ({ activeSection, navItems, onNavigate }: NavbarProps) => {
 }
 
 export default Navbar
-
-

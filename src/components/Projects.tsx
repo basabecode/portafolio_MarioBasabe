@@ -35,7 +35,7 @@ const FEATURED_PROJECTS: Project[] = [
     tech: ['Next.js', 'TypeScript', 'React', 'PostgreSQL', 'Vercel'],
     metrics: '> mejor tasa de conversión en semanas',
     links: {
-      live: 'https://capi-shop-web.vercel.app/',
+      live: 'https://capishopweb.vercel.app/',
       repo: 'https://github.com/basabecode',
     },
     badge: 'Producto destacado',
